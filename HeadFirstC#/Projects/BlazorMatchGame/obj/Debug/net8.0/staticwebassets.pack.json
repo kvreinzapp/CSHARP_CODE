@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/obj/Debug/net8.0/scopedcss/projectbundle/BlazorMatchGame.bundle.scp.css",
+      "PackagePath": "staticwebassets/BlazorMatchGame.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.BlazorMatchGame.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.BlazorMatchGame.props",
+      "PackagePath": "build\\BlazorMatchGame.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.BlazorMatchGame.props",
+      "PackagePath": "buildMultiTargeting\\BlazorMatchGame.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.BlazorMatchGame.props",
+      "PackagePath": "buildTransitive\\BlazorMatchGame.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
