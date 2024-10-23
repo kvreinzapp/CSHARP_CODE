@@ -1,0 +1,15 @@
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/bin/Debug/net8.0/HelloWorldApp
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/bin/Debug/net8.0/HelloWorldApp.deps.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/bin/Debug/net8.0/HelloWorldApp.runtimeconfig.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/bin/Debug/net8.0/HelloWorldApp.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/bin/Debug/net8.0/HelloWorldApp.pdb
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.AssemblyInfoInputs.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.AssemblyInfo.cs
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.csproj.CoreCompileInputs.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.sourcelink.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/refint/HelloWorldApp.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.pdb
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/HelloWorldApp.genruntimeconfig.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/HelloWorldApp/obj/Debug/net8.0/ref/HelloWorldApp.dll
