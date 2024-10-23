@@ -27,3 +27,4 @@
 /Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/obj/Debug/net8.0/BlazorMatchGame.pdb
 /Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/obj/Debug/net8.0/BlazorMatchGame.genruntimeconfig.cache
 /Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/obj/Debug/net8.0/ref/BlazorMatchGame.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/BlazorMatchGame/obj/Debug/net8.0/BlazorMatchGame.sourcelink.json
