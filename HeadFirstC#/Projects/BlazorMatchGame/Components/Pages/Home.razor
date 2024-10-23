@@ -15,7 +15,7 @@
     <div class = "row">
         @foreach(var animal in shuffledAnimals){
             <div class = "col-3">
-                <button @onclick="@(()=>ButtonClick(animal))" 
+                <button @onclick="@(() => ButtonClick(animal))" 
                     type = "button" class = "btn btn-outline-dark">
                     <h1>@animal</h1>
                 </button>
@@ -52,7 +52,7 @@
             lastAnimalFound  = animal;
         }else if(lastAnimalFound == animal){
             lastAnimalFound = string.Empty;
-            shuffledAnimals = shuffledAnimals.Select(a=>a.Replace(animal,string.Empty)).Tolist();
+            shuffledAnimals = shuffledAnimals.Select(a=>a.Replace(animal, string.Empty)).ToList();
         }else{
             lastAnimalFound = string.Empty;
         }
