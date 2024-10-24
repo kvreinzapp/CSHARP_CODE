@@ -1,0 +1,15 @@
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/bin/Debug/net8.0/MyFirstConsoleApp
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/bin/Debug/net8.0/MyFirstConsoleApp.deps.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/bin/Debug/net8.0/MyFirstConsoleApp.runtimeconfig.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/bin/Debug/net8.0/MyFirstConsoleApp.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/bin/Debug/net8.0/MyFirstConsoleApp.pdb
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.AssemblyInfoInputs.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.AssemblyInfo.cs
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.csproj.CoreCompileInputs.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.sourcelink.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/refint/MyFirstConsoleApp.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.pdb
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/MyFirstConsoleApp.genruntimeconfig.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/HeadFirstC#/Projects/MyFirstConsoleApp/obj/Debug/net8.0/ref/MyFirstConsoleApp.dll
