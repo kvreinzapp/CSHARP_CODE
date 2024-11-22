@@ -5,6 +5,8 @@
 }
 
 body {
+    background: var(--bg);
+    color: var(--fontcolor);
     font-family: monospace;
 }
 
@@ -33,7 +35,7 @@ li {
     --fontColor: var(--black);
 }
 
-.dard-theme {
+.dark-theme {
     --bg: var(--black);
     --fontColor: var(--green);
 }
