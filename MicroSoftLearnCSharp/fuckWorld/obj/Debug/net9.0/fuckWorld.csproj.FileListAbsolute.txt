@@ -1,0 +1,15 @@
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/bin/Debug/net9.0/fuckWorld
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/bin/Debug/net9.0/fuckWorld.deps.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/bin/Debug/net9.0/fuckWorld.runtimeconfig.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/bin/Debug/net9.0/fuckWorld.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/bin/Debug/net9.0/fuckWorld.pdb
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.GeneratedMSBuildEditorConfig.editorconfig
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.AssemblyInfoInputs.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.AssemblyInfo.cs
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.csproj.CoreCompileInputs.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.sourcelink.json
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/refint/fuckWorld.dll
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.pdb
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/fuckWorld.genruntimeconfig.cache
+/Users/klausvonreinherz/Documents/CodingBySelf/CSHARP_CODE/MicroSoftLearnCSharp/fuckWorld/obj/Debug/net9.0/ref/fuckWorld.dll
