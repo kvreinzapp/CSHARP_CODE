@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Earth Model</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #instructions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="instructions">
+        <p>🌍 Rotate: Drag with mouse</p>
+        <p>🔍 Zoom: Scroll</p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script>
+        // Import Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add Earth texture
+        const textureLoader = new THREE.TextureLoader();
+        const earthTexture = textureLoader.load('https://cdn.jsdelivr.net/gh/greekcoder/three.js-earth-texture/earth_texture.jpg');
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ map: earthTexture });
+        const earth = new THREE.Mesh(geometry, material);
+        scene.add(earth);
+
+        // Set camera position
+        camera.position.z = 2;
+
+        // Add controls for interaction
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        // Animation loop
+        const animate = function () {
+            requestAnimationFrame(animate);
+
+            earth.rotation.y += 0.001; // Rotate Earth slowly
+            renderer.render(scene, camera);
+        };
+
+        // Responsive design
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        animate();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/controls/OrbitControls.js"></script>
+</body>
+
+</html>
