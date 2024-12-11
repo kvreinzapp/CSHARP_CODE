@@ -10,6 +10,7 @@ class EnhancedMusicGenerator {
     this.savedCompositions = [];
     this.progressBar = document.getElementById('progressBar');
     this.progressContainer = document.getElementById('progressContainer');
+    this.setupVisualization();
   }
 
   setupAudioContext() {
@@ -339,6 +340,7 @@ class EnhancedMusicGenerator {
       });
 
       Tone.Transport.start();
+      this.drawWaveform();
     } catch (error) {
       console.error('Playback error:', error);
       this.stopMusic();
@@ -363,6 +365,8 @@ class EnhancedMusicGenerator {
     Object.values(this.instruments).forEach(instrument => {
       instrument.releaseAll();
     });
+
+    this.waveformCtx.clearRect(0, 0, this.waveformCanvas.width, this.waveformCanvas.height);
   }
 
   saveComposition() {
@@ -428,6 +432,55 @@ class EnhancedMusicGenerator {
     this.savedCompositions.splice(index, 1);
     this.saveToLocalStorage();
     this.updatePlaylist();
+  }
+
+  setupVisualization() {
+    this.waveformCanvas = document.getElementById('waveformCanvas');
+    this.waveformCtx = this.waveformCanvas.getContext('2d');
+    this.analyzer = new Tone.Analyser('waveform', 256);
+
+    // Connect all instruments to analyzer
+    Object.values(this.instruments).forEach(instrument => {
+      instrument.connect(this.analyzer);
+    });
+
+    // Set canvas size
+    this.resizeWaveformCanvas();
+    window.addEventListener('resize', () => this.resizeWaveformCanvas());
+  }
+
+  resizeWaveformCanvas() {
+    this.waveformCanvas.width = this.waveformCanvas.offsetWidth;
+    this.waveformCanvas.height = this.waveformCanvas.offsetHeight;
+  }
+
+  drawWaveform() {
+    if (!this.isPlaying) return;
+
+    requestAnimationFrame(() => this.drawWaveform());
+
+    const waveform = this.analyzer.getValue();
+    const width = this.waveformCanvas.width;
+    const height = this.waveformCanvas.height;
+    const sliceWidth = width / waveform.length;
+
+    this.waveformCtx.clearRect(0, 0, width, height);
+    this.waveformCtx.beginPath();
+    this.waveformCtx.strokeStyle = 'var(--primary-color)';
+    this.waveformCtx.lineWidth = 2;
+
+    waveform.forEach((value, i) => {
+      const x = i * sliceWidth;
+      const y = (value + 1) / 2 * height;
+
+      if (i === 0) {
+        this.waveformCtx.moveTo(x, y);
+      } else {
+        this.waveformCtx.lineTo(x, y);
+      }
+    });
+
+    this.waveformCtx.stroke();
   }
 }
 
