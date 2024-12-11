@@ -4,76 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Earth Model</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-
-        canvas {
-            display: block;
-        }
-
-        #instructions {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+    <title>AI Music Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div id="instructions">
-        <p>🌍 Rotate: Drag with mouse</p>
-        <p>🔍 Zoom: Scroll</p>
+    <div class="background-overlay"></div>
+    <div class="container">
+        <header>
+            <h1>AI Music Generator</h1>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-box">
+                    <input type="file" id="imageInput" accept="image/*">
+                    <label for="imageInput">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Choose an image</span>
+                    </label>
+                </div>
+                <button id="generateButton" class="btn" disabled>
+                    <i class="fas fa-music"></i> Generate Music
+                </button>
+                <div id="progressContainer" class="progress-container" style="display: none;">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="display-section">
+                <canvas id="imageCanvas"></canvas>
+                <div class="music-controls">
+                    <div class="control-buttons">
+                        <button id="playButton" class="btn" disabled>
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="stopButton" class="btn" disabled>
+                            <i class="fas fa-stop"></i>
+                        </button>
+                        <button id="saveButton" class="btn" disabled>
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <h2>My Collection</h2>
+                <div id="playlist" class="playlist">
+                    <!-- Playlist items will be added here dynamically -->
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-    <script>
-        // Import Three.js
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // Add Earth texture
-        const textureLoader = new THREE.TextureLoader();
-        const earthTexture = textureLoader.load('https://cdn.jsdelivr.net/gh/greekcoder/three.js-earth-texture/earth_texture.jpg');
-        const geometry = new THREE.SphereGeometry(1, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ map: earthTexture });
-        const earth = new THREE.Mesh(geometry, material);
-        scene.add(earth);
-
-        // Set camera position
-        camera.position.z = 2;
-
-        // Add controls for interaction
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-        // Animation loop
-        const animate = function () {
-            requestAnimationFrame(animate);
-
-            earth.rotation.y += 0.001; // Rotate Earth slowly
-            renderer.render(scene, camera);
-        };
-
-        // Responsive design
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
-
-        animate();
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
