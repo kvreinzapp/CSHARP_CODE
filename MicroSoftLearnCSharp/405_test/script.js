@@ -341,6 +341,7 @@ class EnhancedMusicGenerator {
 
       Tone.Transport.start();
       this.drawWaveform();
+      this.drawBarGraph();
     } catch (error) {
       console.error('Playback error:', error);
       this.stopMusic();
@@ -367,6 +368,7 @@ class EnhancedMusicGenerator {
     });
 
     this.waveformCtx.clearRect(0, 0, this.waveformCanvas.width, this.waveformCanvas.height);
+    this.barGraphCtx.clearRect(0, 0, this.barGraphCanvas.width, this.barGraphCanvas.height);
   }
 
   saveComposition() {
@@ -437,21 +439,34 @@ class EnhancedMusicGenerator {
   setupVisualization() {
     this.waveformCanvas = document.getElementById('waveformCanvas');
     this.waveformCtx = this.waveformCanvas.getContext('2d');
+    this.barGraphCanvas = document.getElementById('barGraphCanvas');
+    this.barGraphCtx = this.barGraphCanvas.getContext('2d');
     this.analyzer = new Tone.Analyser('waveform', 256);
+    this.fft = new Tone.Analyser('fft', 32);
 
-    // Connect all instruments to analyzer
+    // Connect all instruments to analyzers
     Object.values(this.instruments).forEach(instrument => {
       instrument.connect(this.analyzer);
+      instrument.connect(this.fft);
     });
 
     // Set canvas size
     this.resizeWaveformCanvas();
-    window.addEventListener('resize', () => this.resizeWaveformCanvas());
+    this.resizeBarGraphCanvas();
+    window.addEventListener('resize', () => {
+      this.resizeWaveformCanvas();
+      this.resizeBarGraphCanvas();
+    });
   }
 
   resizeWaveformCanvas() {
     this.waveformCanvas.width = this.waveformCanvas.offsetWidth;
     this.waveformCanvas.height = this.waveformCanvas.offsetHeight;
+  }
+
+  resizeBarGraphCanvas() {
+    this.barGraphCanvas.width = this.barGraphCanvas.offsetWidth;
+    this.barGraphCanvas.height = this.barGraphCanvas.offsetHeight;
   }
 
   drawWaveform() {
@@ -481,6 +496,28 @@ class EnhancedMusicGenerator {
     });
 
     this.waveformCtx.stroke();
+  }
+
+  drawBarGraph() {
+    if (!this.isPlaying) return;
+
+    requestAnimationFrame(() => this.drawBarGraph());
+
+    const values = this.fft.getValue();
+    const width = this.barGraphCanvas.width;
+    const height = this.barGraphCanvas.height;
+    const barWidth = width / values.length;
+
+    this.barGraphCtx.clearRect(0, 0, width, height);
+
+    values.forEach((value, i) => {
+      const barHeight = (value + 140) * 2; // Normalize value
+      const x = i * barWidth;
+      const y = height - barHeight;
+
+      this.barGraphCtx.fillStyle = 'var(--primary-color)';
+      this.barGraphCtx.fillRect(x, y, barWidth, barHeight);
+    });
   }
 }
 
