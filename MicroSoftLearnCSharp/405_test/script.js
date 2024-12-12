@@ -11,6 +11,9 @@ class EnhancedMusicGenerator {
     this.progressBar = document.getElementById('progressBar');
     this.progressContainer = document.getElementById('progressContainer');
     this.setupVisualization();
+    this.history = [];
+    this.loadHistory();
+    this.setupHistoryElements();
   }
 
   setupAudioContext() {
@@ -85,6 +88,13 @@ class EnhancedMusicGenerator {
           this.ctx.drawImage(img, 0, 0);
           this.generateButton.disabled = false;
           this.updateBackground(e.target.result);
+
+          // Add to history
+          this.addToHistory({
+            imageData: e.target.result,
+            date: new Date().toLocaleString(),
+            filename: file.name
+          });
         };
         img.src = e.target.result;
       };
@@ -172,6 +182,14 @@ class EnhancedMusicGenerator {
     const analysis = this.analyzeImage();
     const composition = this.createComposition(analysis);
     this.currentComposition = composition;
+
+    // Add to history when music is generated
+    this.addToHistory({
+      imageData: this.canvas.toDataURL(),
+      date: new Date().toLocaleString(),
+      filename: 'Generated Music ' + new Date().toLocaleString(),
+      composition: composition // Store the composition data
+    });
 
     // Ensure audio context is ready
     if (Tone.context.state === 'suspended') {
@@ -518,6 +536,114 @@ class EnhancedMusicGenerator {
       this.barGraphCtx.fillStyle = 'var(--primary-color)';
       this.barGraphCtx.fillRect(x, y, barWidth, barHeight);
     });
+  }
+
+  setupHistoryElements() {
+    this.historyContainer = document.getElementById('historyContainer');
+    if (!this.historyContainer) {
+      console.error('History container not found');
+      return;
+    }
+    this.clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    this.clearHistoryBtn.addEventListener('click', () => this.clearHistory());
+  }
+
+  addToHistory(item) {
+    if (!this.history) {
+      this.history = [];
+    }
+
+    console.log('Adding to history:', item); // Debug log
+
+    this.history.unshift(item);
+    if (this.history.length > 20) {
+      this.history.pop();
+    }
+
+    this.saveHistory();
+    this.updateHistoryDisplay();
+  }
+
+  updateHistoryDisplay() {
+    if (!this.historyContainer) {
+      console.error('History container not available');
+      return;
+    }
+
+    console.log('Updating history display, items:', this.history.length); // Debug log
+
+    this.historyContainer.innerHTML = '';
+
+    this.history.forEach((item, index) => {
+      const historyItem = document.createElement('div');
+      historyItem.className = 'history-item';
+      historyItem.style.cursor = 'pointer';
+
+      historyItem.innerHTML = `
+        <img src="${item.imageData}" alt="Uploaded image">
+        <div class="history-item-info">
+          <div class="history-item-title">${item.filename}</div>
+          <div class="history-item-date">${item.date}</div>
+        </div>
+      `;
+
+      historyItem.addEventListener('click', () => {
+        this.loadHistoryItem(item);
+      });
+
+      this.historyContainer.appendChild(historyItem);
+    });
+  }
+
+  loadHistory() {
+    try {
+      const saved = localStorage.getItem('musicGeneratorHistory');
+      if (saved) {
+        this.history = JSON.parse(saved);
+        console.log('Loaded history items:', this.history.length); // Debug log
+        this.updateHistoryDisplay();
+      }
+    } catch (error) {
+      console.error('Error loading history:', error);
+      this.history = [];
+    }
+  }
+
+  saveHistory() {
+    try {
+      localStorage.setItem('musicGeneratorHistory', JSON.stringify(this.history));
+      console.log('History saved, items:', this.history.length); // Debug log
+    } catch (error) {
+      console.error('Error saving history:', error);
+    }
+  }
+
+  clearHistory() {
+    if (confirm('Are you sure you want to clear the history?')) {
+      this.history = [];
+      this.saveHistory();
+      this.updateHistoryDisplay();
+    }
+  }
+
+  loadHistoryItem(item) {
+    const img = new Image();
+    img.onload = () => {
+      this.canvas.width = img.width;
+      this.canvas.height = img.height;
+      this.ctx.drawImage(img, 0, 0);
+      this.generateButton.disabled = false;
+      this.updateBackground(item.imageData);
+
+      // If the history item has composition data, load it
+      if (item.composition) {
+        this.currentComposition = item.composition;
+        this.playButton.disabled = false;
+        this.stopButton.disabled = false;
+        this.saveButton.disabled = false;
+      }
+    };
+    img.src = item.imageData;
   }
 }
 
