@@ -71,6 +71,8 @@ class EnhancedMusicGenerator {
     this.timelineTime = document.querySelector('.timeline-time');
     this.imageDescription = document.querySelector('.image-description');
     this.musicDescription = document.querySelector('.music-description');
+    this.downloadButton = document.getElementById('downloadButton');
+    this.shareButtons = document.querySelectorAll('.share-dropdown a');
   }
 
   setupEventListeners() {
@@ -79,6 +81,10 @@ class EnhancedMusicGenerator {
     this.playButton.addEventListener('click', () => this.togglePlay());
     this.stopButton.addEventListener('click', () => this.stopMusic());
     this.saveButton.addEventListener('click', () => this.saveComposition());
+    this.downloadButton.addEventListener('click', () => this.downloadComposition());
+    this.shareButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => this.shareComposition(e));
+    });
   }
 
   async handleImageUpload() {
@@ -213,6 +219,8 @@ class EnhancedMusicGenerator {
     this.playButton.disabled = false;
     this.stopButton.disabled = false;
     this.saveButton.disabled = false;
+    this.downloadButton.disabled = false;
+    this.shareButtons.forEach(btn => btn.parentElement.classList.remove('disabled'));
   }
 
   createComposition(analysis) {
@@ -409,6 +417,10 @@ class EnhancedMusicGenerator {
     this.currentTime = 0;
     this.updateTimelinePosition();
     this.clearDescriptions();
+    this.downloadButton.disabled = !this.currentComposition;
+    this.shareButtons.forEach(btn => {
+      btn.parentElement.classList.toggle('disabled', !this.currentComposition);
+    });
   }
 
   saveComposition() {
@@ -765,6 +777,72 @@ class EnhancedMusicGenerator {
   clearDescriptions() {
     this.imageDescription.textContent = '';
     this.musicDescription.textContent = '';
+  }
+
+  downloadComposition() {
+    if (!this.currentComposition) return;
+
+    try {
+      // Create a WAV file from the current composition
+      const recorder = new Tone.Recorder();
+
+      // Connect instruments to recorder
+      Object.values(this.instruments).forEach(instrument => {
+        instrument.connect(recorder);
+      });
+
+      // Start recording
+      recorder.start();
+
+      // Play the composition
+      this.playMusic();
+
+      // Stop recording after composition duration
+      setTimeout(async () => {
+        const recording = await recorder.stop();
+        const url = URL.createObjectURL(recording);
+
+        // Create download link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = `composition-${Date.now()}.wav`;
+        downloadLink.click();
+
+        // Cleanup
+        URL.revokeObjectURL(url);
+      }, this.duration * 1000);
+
+    } catch (error) {
+      console.error('Error downloading composition:', error);
+      alert('Failed to download. Please try again.');
+    }
+  }
+
+  shareComposition(event) {
+    event.preventDefault();
+
+    if (!this.currentComposition) return;
+
+    const shareData = {
+      title: 'AI Generated Music',
+      text: 'Check out this music I generated from an image!',
+      url: window.location.href
+    };
+
+    const platform = event.currentTarget.classList.contains('twitter-share') ? 'twitter' : 'instagram';
+
+    try {
+      if (platform === 'twitter') {
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`;
+        window.open(twitterUrl, '_blank');
+      } else if (platform === 'instagram') {
+        // Instagram sharing is limited to their app
+        alert('To share on Instagram, please download the music and share it through the Instagram app.');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      alert('Failed to share. Please try again.');
+    }
   }
 }
 

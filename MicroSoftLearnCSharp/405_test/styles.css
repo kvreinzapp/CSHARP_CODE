@@ -367,6 +367,50 @@ select {
     font-style: italic;
 }
 
+.share-buttons {
+    position: relative;
+    display: inline-block;
+}
+
+.share-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem;
+    z-index: 100;
+}
+
+.share-buttons:hover .share-dropdown {
+    display: block;
+}
+
+.share-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.share-dropdown a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.twitter-share i {
+    color: #1DA1F2;
+}
+
+.instagram-share i {
+    color: #E4405F;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
