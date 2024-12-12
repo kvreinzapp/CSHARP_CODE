@@ -14,6 +14,7 @@ class EnhancedMusicGenerator {
     this.history = [];
     this.loadHistory();
     this.setupHistoryElements();
+    this.setupTimeline();
   }
 
   setupAudioContext() {
@@ -64,6 +65,12 @@ class EnhancedMusicGenerator {
     this.ctx = this.canvas.getContext('2d');
     this.playlist = document.getElementById('playlist');
     this.instrumentSelect = document.getElementById('instrumentSelect');
+    this.timeline = document.querySelector('.timeline');
+    this.timelineProgress = document.querySelector('.timeline-progress');
+    this.timelineCursor = document.querySelector('.timeline-cursor');
+    this.timelineTime = document.querySelector('.timeline-time');
+    this.imageDescription = document.querySelector('.image-description');
+    this.musicDescription = document.querySelector('.music-description');
   }
 
   setupEventListeners() {
@@ -129,6 +136,8 @@ class EnhancedMusicGenerator {
       }
     }
 
+    // Generate descriptions based on analysis
+    this.updateDescriptions(analysis);
     return analysis;
   }
 
@@ -357,8 +366,16 @@ class EnhancedMusicGenerator {
         }, "4n").start(0);
       });
 
+      // Calculate total duration based on tempo and beats
+      this.duration = (60 / this.currentComposition.tempo) * this.currentComposition.duration;
+
+      // Update timeline periodically
+      this.timelineInterval = setInterval(() => {
+        this.currentTime = Tone.Transport.seconds;
+        this.updateTimelinePosition();
+      }, 100);
+
       Tone.Transport.start();
-      this.drawWaveform();
       this.drawBarGraph();
     } catch (error) {
       console.error('Playback error:', error);
@@ -385,22 +402,91 @@ class EnhancedMusicGenerator {
       instrument.releaseAll();
     });
 
-    this.waveformCtx.clearRect(0, 0, this.waveformCanvas.width, this.waveformCanvas.height);
     this.barGraphCtx.clearRect(0, 0, this.barGraphCanvas.width, this.barGraphCanvas.height);
+    if (this.timelineInterval) {
+      clearInterval(this.timelineInterval);
+    }
+    this.currentTime = 0;
+    this.updateTimelinePosition();
+    this.clearDescriptions();
   }
 
   saveComposition() {
-    if (!this.currentComposition) return;
+    if (!this.currentComposition) {
+      alert('No music to save. Please generate music first.');
+      return;
+    }
 
-    const composition = {
-      ...this.currentComposition,
-      name: `Composition ${this.savedCompositions.length + 1}`,
-      date: new Date().toLocaleString()
-    };
+    try {
+      // Create a simplified version of the composition for storage
+      const compositionToSave = {
+        id: Date.now(),
+        name: `Composition ${this.savedCompositions.length + 1}`,
+        date: new Date().toLocaleString(),
+        imageData: this.currentComposition.imageData,
+        tempo: this.currentComposition.tempo,
+        duration: this.currentComposition.duration,
+        tracks: this.currentComposition.tracks.map(track => ({
+          instrument: track.instrument,
+          notes: track.notes ? [...track.notes] : [],
+          rhythm: track.rhythm ? [...track.rhythm] : []
+        }))
+      };
 
-    this.savedCompositions.push(composition);
-    this.saveToLocalStorage();
-    this.updatePlaylist();
+      // Check if composition data is valid
+      if (!compositionToSave.tracks || !compositionToSave.tracks.length) {
+        throw new Error('Invalid composition data');
+      }
+
+      // Check for duplicate saves
+      const isDuplicate = this.savedCompositions.some(comp => comp.id === compositionToSave.id);
+      if (isDuplicate) {
+        alert('This composition is already saved!');
+        return;
+      }
+
+      // Add to saved compositions array
+      this.savedCompositions.push(compositionToSave);
+
+      // Save to localStorage
+      this.saveToLocalStorage();
+
+      // Update UI
+      this.updatePlaylist();
+
+      // Show success message
+      alert('Music saved to collection!');
+
+    } catch (error) {
+      console.error('Error saving composition:', error);
+      alert('Could not save the music. Please try generating it again.');
+    }
+  }
+
+  playComposition(index) {
+    try {
+      this.stopMusic();
+      const savedComposition = this.savedCompositions[index];
+
+      if (!savedComposition || !savedComposition.tracks) {
+        throw new Error('Invalid composition data');
+      }
+
+      // Create a fresh copy with all necessary properties
+      this.currentComposition = {
+        ...savedComposition,
+        tracks: savedComposition.tracks.map(track => ({
+          instrument: track.instrument,
+          notes: Array.isArray(track.notes) ? [...track.notes] : [],
+          rhythm: Array.isArray(track.rhythm) ? [...track.rhythm] : []
+        }))
+      };
+
+      this.playMusic();
+    } catch (error) {
+      console.error('Error playing composition:', error);
+      alert('Unable to play this composition. It may be corrupted.');
+    }
   }
 
   loadSavedMusic() {
@@ -442,78 +528,26 @@ class EnhancedMusicGenerator {
     });
   }
 
-  playComposition(index) {
-    this.stopMusic();
-    this.currentComposition = this.savedCompositions[index];
-    this.playMusic();
-  }
-
-  deleteComposition(index) {
-    this.savedCompositions.splice(index, 1);
-    this.saveToLocalStorage();
-    this.updatePlaylist();
-  }
-
   setupVisualization() {
-    this.waveformCanvas = document.getElementById('waveformCanvas');
-    this.waveformCtx = this.waveformCanvas.getContext('2d');
     this.barGraphCanvas = document.getElementById('barGraphCanvas');
     this.barGraphCtx = this.barGraphCanvas.getContext('2d');
-    this.analyzer = new Tone.Analyser('waveform', 256);
     this.fft = new Tone.Analyser('fft', 32);
 
-    // Connect all instruments to analyzers
+    // Connect all instruments to analyzer
     Object.values(this.instruments).forEach(instrument => {
-      instrument.connect(this.analyzer);
       instrument.connect(this.fft);
     });
 
     // Set canvas size
-    this.resizeWaveformCanvas();
     this.resizeBarGraphCanvas();
     window.addEventListener('resize', () => {
-      this.resizeWaveformCanvas();
       this.resizeBarGraphCanvas();
     });
-  }
-
-  resizeWaveformCanvas() {
-    this.waveformCanvas.width = this.waveformCanvas.offsetWidth;
-    this.waveformCanvas.height = this.waveformCanvas.offsetHeight;
   }
 
   resizeBarGraphCanvas() {
     this.barGraphCanvas.width = this.barGraphCanvas.offsetWidth;
     this.barGraphCanvas.height = this.barGraphCanvas.offsetHeight;
-  }
-
-  drawWaveform() {
-    if (!this.isPlaying) return;
-
-    requestAnimationFrame(() => this.drawWaveform());
-
-    const waveform = this.analyzer.getValue();
-    const width = this.waveformCanvas.width;
-    const height = this.waveformCanvas.height;
-    const sliceWidth = width / waveform.length;
-
-    this.waveformCtx.clearRect(0, 0, width, height);
-    this.waveformCtx.beginPath();
-    this.waveformCtx.strokeStyle = 'var(--primary-color)';
-    this.waveformCtx.lineWidth = 2;
-
-    waveform.forEach((value, i) => {
-      const x = i * sliceWidth;
-      const y = (value + 1) / 2 * height;
-
-      if (i === 0) {
-        this.waveformCtx.moveTo(x, y);
-      } else {
-        this.waveformCtx.lineTo(x, y);
-      }
-    });
-
-    this.waveformCtx.stroke();
   }
 
   drawBarGraph() {
@@ -529,7 +563,7 @@ class EnhancedMusicGenerator {
     this.barGraphCtx.clearRect(0, 0, width, height);
 
     values.forEach((value, i) => {
-      const barHeight = (value + 140) * 2; // Normalize value
+      const barHeight = (value + 140) * 2;
       const x = i * barWidth;
       const y = height - barHeight;
 
@@ -644,6 +678,93 @@ class EnhancedMusicGenerator {
       }
     };
     img.src = item.imageData;
+  }
+
+  setupTimeline() {
+    this.currentTime = 0;
+    this.duration = 0;
+
+    this.timeline.addEventListener('click', (e) => {
+      const rect = this.timeline.getBoundingClientRect();
+      const position = (e.clientX - rect.left) / rect.width;
+      this.seekTo(position);
+    });
+
+    this.timeline.addEventListener('mousemove', (e) => {
+      if (e.buttons === 1) { // Left mouse button is pressed
+        const rect = this.timeline.getBoundingClientRect();
+        const position = (e.clientX - rect.left) / rect.width;
+        this.seekTo(position);
+      }
+    });
+  }
+
+  seekTo(position) {
+    if (!this.currentComposition) return;
+
+    position = Math.max(0, Math.min(1, position));
+    this.currentTime = position * this.duration;
+
+    if (this.isPlaying) {
+      Tone.Transport.seconds = this.currentTime;
+    }
+
+    this.updateTimelinePosition();
+  }
+
+  updateTimelinePosition() {
+    const position = this.currentTime / this.duration;
+    this.timelineProgress.style.width = `${position * 100}%`;
+    this.timelineCursor.style.left = `${position * 100}%`;
+    this.timelineTime.textContent = `${this.formatTime(this.currentTime)} / ${this.formatTime(this.duration)}`;
+  }
+
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  updateDescriptions(analysis) {
+    // Calculate overall brightness and color characteristics
+    const avgBrightness = analysis.sections.reduce((sum, section) =>
+      sum + (section.averageColor[0] + section.averageColor[1] + section.averageColor[2]) / 3, 0
+    ) / analysis.sections.length;
+
+    const colorfulness = analysis.dominantColors.length;
+
+    // Generate image description
+    let imageDesc = "I see an image that's ";
+    if (avgBrightness > 200) imageDesc += "very bright and vibrant";
+    else if (avgBrightness > 150) imageDesc += "well-lit and clear";
+    else if (avgBrightness > 100) imageDesc += "moderately lit";
+    else imageDesc += "dark and moody";
+
+    imageDesc += ` with ${colorfulness} dominant colors. `;
+    if (colorfulness > 3) {
+      imageDesc += "The variety of colors suggests a dynamic and lively scene.";
+    } else {
+      imageDesc += "The limited color palette creates a focused and harmonious atmosphere.";
+    }
+
+    // Generate music description
+    let musicDesc = "I've created a ";
+    if (avgBrightness > 150) {
+      musicDesc += "bright and uplifting melody";
+    } else {
+      musicDesc += "gentle and contemplative piece";
+    }
+    musicDesc += ` at ${this.calculateTempo(analysis)} BPM, `;
+    musicDesc += "featuring piano, atmospheric pads, and gentle bells.";
+
+    // Update the UI
+    this.imageDescription.textContent = imageDesc;
+    this.musicDescription.textContent = musicDesc;
+  }
+
+  clearDescriptions() {
+    this.imageDescription.textContent = '';
+    this.musicDescription.textContent = '';
   }
 }
 
