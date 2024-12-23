@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fuckWorld")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a906403dfdc3c7d0c9b79ea5b516488cd128850b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4560277b5542920035ef3ecc105ea2f44774417d")]
 [assembly: System.Reflection.AssemblyProductAttribute("fuckWorld")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fuckWorld")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
